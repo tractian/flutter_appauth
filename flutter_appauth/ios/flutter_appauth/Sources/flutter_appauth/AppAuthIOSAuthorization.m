@@ -13,10 +13,6 @@
                   result:(FlutterResult)result
             exchangeCode:(BOOL)exchangeCode
                    nonce:(NSString *)nonce {
-  NSString *codeVerifier = [OIDAuthorizationRequest generateCodeVerifier];
-  NSString *codeChallenge =
-      [OIDAuthorizationRequest codeChallengeS256ForVerifier:codeVerifier];
-
   OIDAuthorizationRequest *request = [[OIDAuthorizationRequest alloc]
       initWithConfiguration:serviceConfiguration
                    clientId:clientId
@@ -28,9 +24,9 @@
                       nonce:nonce != nil
                                 ? nonce
                                 : [OIDAuthorizationRequest generateState]
-               codeVerifier:codeVerifier
-              codeChallenge:codeChallenge
-        codeChallengeMethod:OIDOAuthorizationRequestCodeChallengeMethodS256
+               codeVerifier:nil
+              codeChallenge:nil
+        codeChallengeMethod:nil
        additionalParameters:additionalParameters];
   UIViewController *rootViewController = [self rootViewController];
   if (exchangeCode) {
@@ -87,10 +83,6 @@
                                    setObject:authorizationResponse
                                                  .authorizationCode
                                       forKey:@"authorizationCode"];
-                               [processedResponse
-                                   setObject:authorizationResponse.request
-                                                 .codeVerifier
-                                      forKey:@"codeVerifier"];
                                [processedResponse
                                    setObject:authorizationResponse.request.nonce
                                       forKey:@"nonce"];

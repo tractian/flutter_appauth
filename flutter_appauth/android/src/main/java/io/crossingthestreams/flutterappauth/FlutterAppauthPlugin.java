@@ -416,6 +416,8 @@ public class FlutterAppauthPlugin
         new AuthorizationRequest.Builder(
             serviceConfiguration, clientId, ResponseTypeValues.CODE, Uri.parse(redirectUrl));
 
+    authRequestBuilder.setCodeVerifier(null);
+
     if (scopes != null && !scopes.isEmpty()) {
       authRequestBuilder.setScopes(scopes);
     }
